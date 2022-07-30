@@ -1,40 +1,54 @@
-async function getPokemon(query) {
-    let response = await fetch(`https://pokeapi.co/api/v2/${query}`)
-    let jsonData = await response.json();
+const searchBar = document.querySelector('#search');
+const pokeCardTemplate = document.querySelector("[data-pokecard-template]")
 
-    // console.log(jsonData);
-    let wrapper = document.querySelector('#responseWrapper')
-    
-    for(let i = 0; i < jsonData.results.length; i++) {
-        let currentPokemon = await fetch(jsonData.results[i].url)
-        let currentPokemonJSON = await currentPokemon.json()
+searchBar.addEventListener('input', (e)=> {
+    const value = e.target.value.toLowerCase();
+    forEach( )
+})
 
-        console.log(currentPokemonJSON.name);
-        for (let j = 0; j < currentPokemonJSON.abilities.length; j++) {
-            console.log(currentPokemonJSON.abilities[j].ability.name);
-        }
+fetch("https://pokeapi.co/api/v2/pokemon?limit=150")
+    .then(res => res.json())
+    .then(data => {
+        data.forEach(pokemon => {
+            const pokeCard = pokeCardTemplate.content.cloneNode(true).children[0]
+            console.log(pokeCard);
+        })
+    })
+// async function getPokemon(query) {
+//     let response = await fetch(`https://pokeapi.co/api/v2/${query}`)
+//     let jsonData = await response.json();
+//     // console.log(jsonData);
+//     let wrapper = document.querySelector('#responseWrapper')
 
-        let row = document.createElement('tr')
-        let imageCell = document.createElement('td')
-        let shinySprite = document.createElement('img')
-        shinySprite.src = currentPokemonJSON.sprites.front_shiny
-        imageCell.appendChild(shinySprite)
-        row.appendChild(imageCell)
+//     for(let i = 0; i < jsonData.results.length; i++) {
+//         let currentPokemon = await fetch(jsonData.results[i].url)
+//         let currentPokemonJSON = await currentPokemon.json()
 
-        let nameCell = document.createElement('td')
-        let capitalizedName = `${currentPokemonJSON.name.charAt(0).toUpperCase()}${currentPokemonJSON.name.slice(1)}`
+//         console.log(currentPokemonJSON.name);
+//         for (let j = 0; j < currentPokemonJSON.abilities.length; j++) {
+//             console.log(currentPokemonJSON.abilities[j].ability.name);
+//         }
 
-        nameCell.innerText = capitalizedName
-        row.appendChild(nameCell)
+//         let row = document.createElement('tr')
+//         let imageCell = document.createElement('td')
+//         let shinySprite = document.createElement('img')
+//         shinySprite.src = currentPokemonJSON.sprites.front_shiny
+//         imageCell.appendChild(shinySprite)
+//         row.appendChild(imageCell)
 
-        let typeCell = document.createElement('td')
-        typeCell.innerText = currentPokemonJSON.types[0].type.name
-        row.appendChild(typeCell)
+//         let nameCell = document.createElement('td')
+//         let capitalizedName = `${currentPokemonJSON.name.charAt(0).toUpperCase()}${currentPokemonJSON.name.slice(1)}`
 
+//         nameCell.innerText = capitalizedName
+//         row.appendChild(nameCell)
 
-        wrapper.appendChild(row)
-    }
-}
+//         let typeCell = document.createElement('td')
+//         typeCell.innerText = currentPokemonJSON.types[0].type.name
+//         row.appendChild(typeCell)
 
-getPokemon('pokemon?limit=20')
+//         wrapper.appendChild(row)
+//     }
+// }
+
+// getPokemon('pokemon?limit=12')
 console.log('End of file')

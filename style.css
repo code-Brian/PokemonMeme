@@ -1,7 +1,12 @@
+
 .container {
-    /* stuff here soon */
+    max-width: 40vw;
 }
 
 tr, td {
     vertical-align: middle;
+}
+
+.hide {
+    display: none;
 }
