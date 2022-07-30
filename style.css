@@ -2,7 +2,6 @@
     /* stuff here soon */
 }
 
-table td {
-    justify-content: center;
-    align-items: center;
+tr, td {
+    vertical-align: middle;
 }

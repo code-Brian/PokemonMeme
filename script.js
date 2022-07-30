@@ -36,5 +36,5 @@ async function getPokemon(query) {
     }
 }
 
-getPokemon('pokemon?limit=12')
+getPokemon('pokemon?limit=20')
 console.log('End of file')
