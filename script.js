@@ -1,54 +1,50 @@
 const searchBar = document.querySelector('#search');
-const pokeCardTemplate = document.querySelector("[data-pokecard-template]")
+const pokeCardTemplate = document.querySelector("[data-poke-template]")
 
-searchBar.addEventListener('input', (e)=> {
+searchBar.addEventListener('input', (e) => {
     const value = e.target.value.toLowerCase();
-    forEach( )
+    pokeResults.forEach(pokemon => {
+        const isVisible = pokemon.name.includes(value) || pokemon.types[0].type.name
+        if (isVisible){
+            console.log(`${value} matches with ${pokemon.name} or ${pokemon.types[0].type.name}`)
+        }
+        console.log(pokemon)
+    })
 })
 
-fetch("https://pokeapi.co/api/v2/pokemon?limit=150")
-    .then(res => res.json())
-    .then(data => {
-        data.forEach(pokemon => {
-            const pokeCard = pokeCardTemplate.content.cloneNode(true).children[0]
-            console.log(pokeCard);
-        })
-    })
-// async function getPokemon(query) {
-//     let response = await fetch(`https://pokeapi.co/api/v2/${query}`)
-//     let jsonData = await response.json();
-//     // console.log(jsonData);
-//     let wrapper = document.querySelector('#responseWrapper')
+let pokeResults = []
 
-//     for(let i = 0; i < jsonData.results.length; i++) {
-//         let currentPokemon = await fetch(jsonData.results[i].url)
-//         let currentPokemonJSON = await currentPokemon.json()
+let mappedResults = pokeResults.map(obj => {
+    let name = obj.name
+    let type = obj.types[0].type.name
+    return {name: obj.name, type: obj.types[0].type.name, element: card}
+})
 
-//         console.log(currentPokemonJSON.name);
-//         for (let j = 0; j < currentPokemonJSON.abilities.length; j++) {
-//             console.log(currentPokemonJSON.abilities[j].ability.name);
-//         }
+async function getPokemon(query) {
+    let response = await fetch(`https://pokeapi.co/api/v2/${query}`)
+    let jsonData = await response.json();
+    // console.log(jsonData);
+    
+    for (let i = 0; i < jsonData.results.length; i++) {
+        let currentPokemon = await fetch(jsonData.results[i].url)
+        let currentPokemonJSON = await currentPokemon.json()
+        
+        // console.log(currentPokemonJSON)
+        pokeResults.push(currentPokemonJSON)
+        
+        let shinySprite = currentPokemonJSON.sprites.front_shiny
+        // console.log(shinySprite)
+        
+        let name = `${currentPokemonJSON.name.charAt(0).toUpperCase()}${currentPokemonJSON.name.slice(1)}`
+        // console.log(name)
+        
+        let type = currentPokemonJSON.types[0].type.name
+        // console.log(type)
+    }
+    return pokeResults
+}
 
-//         let row = document.createElement('tr')
-//         let imageCell = document.createElement('td')
-//         let shinySprite = document.createElement('img')
-//         shinySprite.src = currentPokemonJSON.sprites.front_shiny
-//         imageCell.appendChild(shinySprite)
-//         row.appendChild(imageCell)
-
-//         let nameCell = document.createElement('td')
-//         let capitalizedName = `${currentPokemonJSON.name.charAt(0).toUpperCase()}${currentPokemonJSON.name.slice(1)}`
-
-//         nameCell.innerText = capitalizedName
-//         row.appendChild(nameCell)
-
-//         let typeCell = document.createElement('td')
-//         typeCell.innerText = currentPokemonJSON.types[0].type.name
-//         row.appendChild(typeCell)
-
-//         wrapper.appendChild(row)
-//     }
-// }
-
-// getPokemon('pokemon?limit=12')
-console.log('End of file')
+getPokemon('pokemon?limit=3')
+console.log(pokeResults)
+console.log(mappedResults)
+// console.log('End of file')
